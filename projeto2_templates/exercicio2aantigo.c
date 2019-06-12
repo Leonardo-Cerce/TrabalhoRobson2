@@ -19,7 +19,7 @@ typedef char * string;
 
 unsigned converter(string s) {
    unsigned h = 0;
-   for (int i = 0; s[i] != '\0'; i++)
+   for (int i = 0; s[i] != '\0'; i++) 
       h = h * 256 + s[i];
    return h;
 }
@@ -27,7 +27,7 @@ unsigned converter(string s) {
 string* ler_strings(const char * arquivo, const int n)
 {
     FILE* f = fopen(arquivo, "r");
-
+    
     string* strings = (string *) malloc(sizeof(string) * n);
 
     for (int i = 0; !feof(f); i++) {
@@ -143,7 +143,7 @@ int main(int argc, char const *argv[])
     int cont;
     unsigned N = 50000;
     unsigned M = 70000;
-    unsigned B = 150001;
+    unsigned B = 50021;
 
     unsigned colisoes_h_div = 0;
     unsigned colisoes_h_mul = 0;

@@ -53,8 +53,6 @@ int main(int argc, char const *argv[])
     int* entradas = ler_inteiros("inteiros_entrada.txt", N);
     int* consultas = ler_inteiros("inteiros_busca.txt", N);
 
-    for(int i = 0; i < 10; i++)
-    {
         encontrados = 0;
         // realiza busca sequencial
         inicia_tempo();
@@ -66,6 +64,6 @@ int main(int argc, char const *argv[])
 
         printf("Tempo de busca    :\t%fs\n", tempo_busca);
         printf("Itens encontrados :\t%d\n", encontrados);
-    }
+    
     return 0;
 }
