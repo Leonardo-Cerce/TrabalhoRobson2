@@ -63,7 +63,7 @@ unsigned h_mul(unsigned x, unsigned i, unsigned B)
     return  ((int) ((fmod(x * A, 1) * B) + i)) % B;
 }
 
-int insere_tabela_div(int * table_div, string insercoes,int B)
+int insere_tabela_div(string * table_div, string insercoes, int B)
 {
     int pos;
     int ins = converter(insercoes);
@@ -71,9 +71,13 @@ int insere_tabela_div(int * table_div, string insercoes,int B)
     for(int i = 0; i < B; i++)
     {
         pos = h_div(ins, i, B);
-        if(table_div[pos] == -1)
+
+        if(!strcmp(table_div[pos], insercoes))
+            return -1;
+
+        if(!strcmp(table_div[pos], "-1"))
         {
-            table_div[pos] = ins;
+           table_div[pos] = insercoes;
             return i;
         }
     }
@@ -81,16 +85,20 @@ int insere_tabela_div(int * table_div, string insercoes,int B)
     return -1;
 }
 
-int insere_tabela_mul(int * table_mul, string insercoes,int B)
+int insere_tabela_mul(string * table_mul, string insercoes,int B)
 {
     int pos;
     int ins = converter(insercoes);
     for(int i = 0; i < B; i++)
     {
         pos = h_mul(ins, i, B);
-        if(table_mul[pos] == -1)
+
+        if(!strcmp(table_mul[pos], insercoes))
+            return -1;
+
+        if(!strcmp(table_mul[pos], "-1"))
         {
-            table_mul[pos] = ins;
+            table_mul[pos] = insercoes;
             return i;
         }
     }
@@ -98,7 +106,7 @@ int insere_tabela_mul(int * table_mul, string insercoes,int B)
     return -1;
 }
 
-int busca_hash_div(int * table, string consultas, int B)
+int busca_hash_div(string * table_div, string consultas, int B)
 {
     int pos;
 
@@ -108,9 +116,9 @@ int busca_hash_div(int * table, string consultas, int B)
         for(int i = 0; i < B; i++)
         {
             pos = h_div(cons, i, B);
-            if(table[pos] == cons)
+            if(!strcmp(table_div[pos], consultas))
                 return 1;
-            if(table[pos] == -1)
+            if(!strcmp(table_div[pos], "-1"))
                 return 0;
         }
     }
@@ -118,7 +126,7 @@ int busca_hash_div(int * table, string consultas, int B)
     return 0;
 }
 
-int busca_hash_mul(int * table, string consultas, int B)
+int busca_hash_mul(string * table_mul, string consultas, int B)
 {
     int pos;
 
@@ -128,9 +136,9 @@ int busca_hash_mul(int * table, string consultas, int B)
         for(int i = 0; i < B; i++)
         {
             pos = h_mul(cons, i, B);
-            if(table[pos] == cons)
+            if(!strcmp(table_mul[pos], consultas))
                 return 1;
-            if(table[pos] == -1)
+            if(!strcmp(table_mul[pos], "-1"))
                 return 0;
         }
     }
@@ -156,9 +164,9 @@ int main(int argc, char const *argv[])
 
 
     // cria tabela hash com hash por divisão
-    int * table_div = (int *)malloc(B*(sizeof(int)));
+    string * table_div = (string *)malloc(B*(sizeof(string)));
     for(int j = 0; j < B; j++)
-        table_div[j] = -1;
+        table_div[j] = "-1";
     // inserção dos dados na tabela hash usando hash por divisão
     inicia_tempo();
     for (int i = 0; i < N; i++) {
@@ -168,7 +176,6 @@ int main(int argc, char const *argv[])
             colisoes_h_div += cont;
     }
     double tempo_insercao_h_div = finaliza_tempo();
-
     // consulta dos dados na tabela hash usando hash por divisão
     inicia_tempo();
     for (int i = 0; i < M; i++) {
@@ -180,12 +187,10 @@ int main(int argc, char const *argv[])
     free(table_div);
 
 
-
     // cria tabela hash com hash por divisão
-    int * table_mul = (int *)malloc(B*(sizeof(int)));
-    //int table_mul[B];
+    string * table_mul = (string *)malloc(B*(sizeof(string)));
     for(int j = 0; j < B; j++)
-        table_mul[j] = -1;
+        table_mul[j] = "-1";
     // inserção dos dados na tabela hash usando hash por multiplicação
     inicia_tempo();
     for (int i = 0; i < N; i++) {

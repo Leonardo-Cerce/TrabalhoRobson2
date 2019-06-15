@@ -71,28 +71,24 @@ unsigned hash(unsigned x, unsigned i, unsigned B)
 	return ((h_mul(x, i, B) + i * h_div(x, i, B)) % B);
 }
 
-int insere_table(string *table, string insercoes, int B)
+int insere_table(int *table, string insercoes, int B)
 {
 	int ins = converter(insercoes);
 	int pos;
 
 	for(int i=0; i < B; i++)
 	{
-        pos = hash(ins, i, B);
-        
-        if(!strcmp(table[pos], insercoes))
-            return -1;
-        
-		if(!strcmp(table[pos], "-1"))
+		pos = hash(ins, i, B);
+		if(table[pos] == -1)
 		{
-			table[pos] = insercoes;
+			table[pos] = ins;
 			return i;
 		}
 	}
 	return -1;
 }
 
-int busca_table(string *table, string consultas, int B)
+int busca_table(int *table, string consultas, int B)
 {
 	int pos;
 	if(consultas != NULL)
@@ -101,9 +97,9 @@ int busca_table(string *table, string consultas, int B)
 		for(int i = 0; i < B; i++)
 		{
 			pos = hash(cons, i, B);
-			if(!strcmp(table[pos], consultas))
+			if(table[pos] == cons)
 				return 1;
-			if(!strcmp(table[pos], "-1"))
+			if(table[pos] == -1)
 				return 0;
 		}
 	}
@@ -126,9 +122,9 @@ int main(int argc, char const *argv[])
 
 
     // cria tabela hash com hash por hash duplo
-    string * table = (string *)malloc(B*(sizeof(string)));
+    int * table = (int *)malloc(B*(sizeof(int)));
     for(int j = 0; j < B; j++)
-        table[j] = "-1";
+        table[j] = -1;
     // inserção dos dados na tabela hash
     inicia_tempo();
     for (int i = 0; i < N; i++) {
